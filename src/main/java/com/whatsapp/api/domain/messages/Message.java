@@ -81,7 +81,72 @@ public class Message {
         return recipientType;
     }
 
-	/**
+    public InteractiveMessage getInteractiveMessage() {
+
+        return interactiveMessage;
+    }
+
+    public String getTo() {
+
+        return to;
+    }
+
+    public MessageType getType() {
+
+        return type;
+    }
+
+    public TextMessage getTextMessage() {
+
+        return textMessage;
+    }
+
+    public List<Contact> getContactMessage() {
+
+        return contactMessage;
+    }
+
+    public TemplateMessage getTemplateMessage() {
+
+        return templateMessage;
+    }
+
+    public AudioMessage getAudioMessage() {
+
+        return audioMessage;
+    }
+
+    public DocumentMessage getDocumentMessage() {
+
+        return documentMessage;
+    }
+
+    public ImageMessage getImageMessage() {
+
+        return imageMessage;
+    }
+
+    public StickerMessage getStickerMessage() {
+
+        return stickerMessage;
+    }
+
+    public VideoMessage getVideoMessage() {
+
+        return videoMessage;
+    }
+
+    public ReactionMessage getReactionMessage() {
+
+        return reactionMessage;
+    }
+
+    public LocationMessage getLocationMessage() {
+
+        return locationMessage;
+    }
+
+    /**
      * The type Message builder.
      */
     public static class MessageBuilder {
