@@ -7,7 +7,7 @@ import com.whatsapp.api.domain.errors.WhatsappApiError;
  */
 public class WhatsappApiException extends RuntimeException {
     /**
-     * The type  WhatsappApiError
+     * The type WhatsappApiError
      */
     private WhatsappApiError whatsappApiError;
 
@@ -51,4 +51,8 @@ public class WhatsappApiException extends RuntimeException {
         return super.getMessage();
     }
 
+    public WhatsappApiError getWhatsappApiError() {
+
+        return whatsappApiError;
+    }
 }
