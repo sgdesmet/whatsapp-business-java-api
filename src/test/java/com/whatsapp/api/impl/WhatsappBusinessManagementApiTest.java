@@ -11,6 +11,7 @@ import com.whatsapp.api.domain.phone.VerifyCode;
 import com.whatsapp.api.domain.phone.type.*;
 
 import com.whatsapp.api.domain.templates.*;
+import com.whatsapp.api.domain.templates.response.TemplateStatus;
 import com.whatsapp.api.domain.templates.type.ButtonType;
 import com.whatsapp.api.domain.templates.type.Category;
 import com.whatsapp.api.domain.templates.type.HeaderFormat;
@@ -107,7 +108,7 @@ class WhatsappBusinessManagementApiTest extends MockServerUtilsTest {
         JSONAssert.assertEquals(expectedJson, request.getBody().readUtf8(), JSONCompareMode.STRICT);
 
         Assertions.assertEquals("952305634123456", response.id());
-        Assertions.assertEquals("REJECTED", response.status());
+        Assertions.assertEquals( TemplateStatus.REJECTED, response.status() );
         Assertions.assertEquals(Category.UTILITY, response.category());
 
     }
