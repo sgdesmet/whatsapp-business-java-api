@@ -50,7 +50,7 @@ public class WhatsappApiServiceGenerator {
 
     public static OkHttpClient createDefaultHttpClient() {
         return new OkHttpClient.Builder()//
-                .callTimeout(20, TimeUnit.SECONDS)//
+                .callTimeout(120, TimeUnit.SECONDS)//
                 .pingInterval(20, TimeUnit.SECONDS)//
                 .build();
     }
@@ -85,7 +85,7 @@ public class WhatsappApiServiceGenerator {
                 .build();
 
         if (username == null || pwd == null) {
-            //Without authentication 
+            //Without authentication
             return;
         }
 
