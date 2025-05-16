@@ -3,7 +3,8 @@ package com.whatsapp.api.domain.templates.response;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 
 /**
- * Date: 03/01/2024 Time: 17:23
+ * <a
+ * href="https://developers.facebook.com/docs/whatsapp/business-management-api/webhooks/components/#value-object">Documentation</a>
  *
  * @author sgdesmet
  */
@@ -18,6 +19,7 @@ public enum TemplateStatus {
     DISABLED,
     PAUSED,
     LIMIT_EXCEEDED,
+    REINSTATED,
+    FLAGGED,
     @JsonEnumDefaultValue UNKNOWN
-
 }
