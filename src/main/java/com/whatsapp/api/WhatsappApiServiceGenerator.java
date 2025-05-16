@@ -20,9 +20,9 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 /**
  * The type Whatsapp api service generator.
@@ -81,7 +81,9 @@ public class WhatsappApiServiceGenerator {
      * @see <a
      * href="https://square.github.io/okhttp/4.x/okhttp/okhttp3/-ok-http-client/-builder/proxy-authenticator/">Proxy
      * Authenticator</a>
+     * @deprecated use {@link #customizeSharedClient(Consumer)}
      */
+    @Deprecated
     public static void setHttpProxy(String host, int port, String username, String pwd) {
         Objects.requireNonNull( host, "Host cannot be null" );
         CustomHttpProxySelector proxySelector = new CustomHttpProxySelector( host, port );
@@ -102,17 +104,11 @@ public class WhatsappApiServiceGenerator {
                                    .build();
     }
 
-    public static void setTimeouts(final Duration callTimout, final Duration connectTimeout,
-                                   final Duration readTimeout) {
-
-        Objects.requireNonNull( callTimout, "Call duration cannot be null" );
-        Objects.requireNonNull( connectTimeout, "Connect duration cannot be null" );
-        Objects.requireNonNull( readTimeout, "Read duration cannot be null" );
-        sharedClient = sharedClient.newBuilder()
-                                   .callTimeout( callTimout )
-                                   .connectTimeout( connectTimeout )
-                                   .readTimeout( readTimeout )
-                                   .build();
+    public static void customizeSharedClient(Consumer<OkHttpClient.Builder> customizer){
+        Objects.requireNonNull( customizer, "Function required" );
+        var builder = sharedClient.newBuilder();
+        customizer.accept( builder );
+        sharedClient = builder.build();
     }
 
     /**

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.time.Duration;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -120,22 +121,19 @@ class WhatsappApiServiceGeneratorTest extends TestUtils {
 
     /**
      * Method under test:
-     * {@link WhatsappApiServiceGenerator#setTimeouts(Duration, Duration, Duration)}
+     * {@link WhatsappApiServiceGenerator#customizeSharedClient(Consumer)}
      */
     @Test
-    void testSetTimeouts() {
+    void customizeSharedClient() {
 
         assertEquals( 20 * 1000, WhatsappApiServiceGenerator.getSharedClient().callTimeoutMillis() );
 
         // Set timeout in shared client
-        WhatsappApiServiceGenerator.setTimeouts( Duration.ofMinutes( 1L ), Duration.ofMinutes( 2L ), Duration.ofMinutes( 3L ) );
+        WhatsappApiServiceGenerator.customizeSharedClient(
+                builder -> builder.callTimeout( Duration.ofMinutes( 1L ) ) );
 
         // Check if timeout is set
         assertEquals( 60 * 1000, WhatsappApiServiceGenerator.getSharedClient().callTimeoutMillis() );
-
-        assertEquals( 2 * 60 * 1000, WhatsappApiServiceGenerator.getSharedClient().connectTimeoutMillis() );
-
-        assertEquals( 3 * 60 * 1000, WhatsappApiServiceGenerator.getSharedClient().readTimeoutMillis() );
     }
 
 }
