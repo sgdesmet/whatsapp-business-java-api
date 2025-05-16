@@ -120,18 +120,22 @@ class WhatsappApiServiceGeneratorTest extends TestUtils {
 
     /**
      * Method under test:
-     * {@link WhatsappApiServiceGenerator#setTimeout(Duration)}
+     * {@link WhatsappApiServiceGenerator#setTimeouts(Duration, Duration, Duration)}
      */
     @Test
-    void testSetTimeout() {
+    void testSetTimeouts() {
 
         assertEquals( 20 * 1000, WhatsappApiServiceGenerator.getSharedClient().callTimeoutMillis() );
 
         // Set timeout in shared client
-        WhatsappApiServiceGenerator.setTimeout( Duration.ofMinutes( 1L ) );
+        WhatsappApiServiceGenerator.setTimeouts( Duration.ofMinutes( 1L ), Duration.ofMinutes( 2L ), Duration.ofMinutes( 3L ) );
 
         // Check if timeout is set
         assertEquals( 60 * 1000, WhatsappApiServiceGenerator.getSharedClient().callTimeoutMillis() );
+
+        assertEquals( 2 * 60 * 1000, WhatsappApiServiceGenerator.getSharedClient().connectTimeoutMillis() );
+
+        assertEquals( 3 * 60 * 1000, WhatsappApiServiceGenerator.getSharedClient().readTimeoutMillis() );
     }
 
 }

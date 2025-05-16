@@ -29,21 +29,22 @@ import java.util.concurrent.TimeUnit;
  */
 public class WhatsappApiServiceGenerator {
 
-    static OkHttpClient sharedClient;
+    static               OkHttpClient      sharedClient;
     private static final Converter.Factory converterFactory = JacksonConverterFactory.create(
-        new ObjectMapper()
-          .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-          .configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
-          .configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false)
-          .configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false)
-          .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+            new ObjectMapper()
+                    .configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false )
+                    .configure( DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false )
+                    .configure( DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false )
+                    .configure( DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false )
+                    .configure( DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true )
     );
 
     @SuppressWarnings("unchecked")
-    private static final Converter<ResponseBody, WhatsappApiError> errorBodyConverter = (Converter<ResponseBody, WhatsappApiError>) converterFactory.responseBodyConverter(WhatsappApiError.class, new Annotation[0], null);
+    private static final Converter<ResponseBody, WhatsappApiError> errorBodyConverter = (Converter<ResponseBody, WhatsappApiError>) converterFactory.responseBodyConverter(
+            WhatsappApiError.class, new Annotation[0], null );
 
     private WhatsappApiServiceGenerator() {
-        throw new IllegalStateException("Cannot instantiate WhatsappApiServiceGenerator is an utility class!");
+        throw new IllegalStateException( "Cannot instantiate WhatsappApiServiceGenerator is an utility class!" );
     }
 
     static {
@@ -52,9 +53,9 @@ public class WhatsappApiServiceGenerator {
 
     public static OkHttpClient createDefaultHttpClient() {
         return new OkHttpClient.Builder()//
-                .callTimeout(20, TimeUnit.SECONDS)//
-                .pingInterval(20, TimeUnit.SECONDS)//
-                .build();
+                                         .callTimeout( 20, TimeUnit.SECONDS )//
+                                         .pingInterval( 20, TimeUnit.SECONDS )//
+                                         .build();
     }
 
     /**
@@ -75,34 +76,42 @@ public class WhatsappApiServiceGenerator {
      * @param port     the port
      * @param username the username
      * @param pwd      the pwd
-     * @see <a href="https://square.github.io/okhttp/4.x/okhttp/okhttp3/-ok-http-client/-builder/proxy-selector/">Proxy Selector</a>
-     * @see <a href="https://square.github.io/okhttp/4.x/okhttp/okhttp3/-ok-http-client/-builder/proxy-authenticator/">Proxy Authenticator</a>
+     * @see <a href="https://square.github.io/okhttp/4.x/okhttp/okhttp3/-ok-http-client/-builder/proxy-selector/">Proxy
+     * Selector</a>
+     * @see <a
+     * href="https://square.github.io/okhttp/4.x/okhttp/okhttp3/-ok-http-client/-builder/proxy-authenticator/">Proxy
+     * Authenticator</a>
      */
     public static void setHttpProxy(String host, int port, String username, String pwd) {
-        Objects.requireNonNull(host, "Host cannot be null");
-        CustomHttpProxySelector proxySelector = new CustomHttpProxySelector(host, port);
+        Objects.requireNonNull( host, "Host cannot be null" );
+        CustomHttpProxySelector proxySelector = new CustomHttpProxySelector( host, port );
 
         sharedClient = sharedClient.newBuilder()
-                .proxySelector(proxySelector)
-                .build();
+                                   .proxySelector( proxySelector )
+                                   .build();
 
         if (username == null || pwd == null) {
             //Without authentication
             return;
         }
 
-        CustomProxyAuthenticator proxyAuthenticator = new CustomProxyAuthenticator(username, pwd);
+        CustomProxyAuthenticator proxyAuthenticator = new CustomProxyAuthenticator( username, pwd );
 
         sharedClient = sharedClient.newBuilder()
-                .proxyAuthenticator(proxyAuthenticator)
-                .build();
+                                   .proxyAuthenticator( proxyAuthenticator )
+                                   .build();
     }
 
-    public static void setTimeout(final Duration duration) {
+    public static void setTimeouts(final Duration callTimout, final Duration connectTimeout,
+                                   final Duration readTimeout) {
 
-        Objects.requireNonNull(duration, "Duration cannot be null");
+        Objects.requireNonNull( callTimout, "Call duration cannot be null" );
+        Objects.requireNonNull( connectTimeout, "Connect duration cannot be null" );
+        Objects.requireNonNull( readTimeout, "Read duration cannot be null" );
         sharedClient = sharedClient.newBuilder()
-                                   .callTimeout( duration )
+                                   .callTimeout( callTimout )
+                                   .connectTimeout( connectTimeout )
+                                   .readTimeout( readTimeout )
                                    .build();
     }
 
@@ -117,22 +126,22 @@ public class WhatsappApiServiceGenerator {
      */
     public static <S> S createService(Class<S> serviceClass, String token, String baseUrl) {
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(converterFactory);
+                .baseUrl( baseUrl )
+                .addConverterFactory( converterFactory );
 
         if (token == null) {
-            retrofitBuilder.client(sharedClient);
+            retrofitBuilder.client( sharedClient );
         } else {
 
-            AuthenticationInterceptor interceptor = new AuthenticationInterceptor(token);
+            AuthenticationInterceptor interceptor = new AuthenticationInterceptor( token );
             OkHttpClient adaptedClient = sharedClient.newBuilder()
-                    .addInterceptor(interceptor)
-                    .build();
-            retrofitBuilder.client(adaptedClient);
+                                                     .addInterceptor( interceptor )
+                                                     .build();
+            retrofitBuilder.client( adaptedClient );
         }
 
         Retrofit retrofit = retrofitBuilder.build();
-        return retrofit.create(serviceClass);
+        return retrofit.create( serviceClass );
     }
 
     /**
@@ -146,7 +155,7 @@ public class WhatsappApiServiceGenerator {
     public static <S> S createService(Class<S> serviceClass, String token) {
 
         var baseUrl = WhatsappApiConfig.getBaseDomain();
-        return createService(serviceClass, token, baseUrl);
+        return createService( serviceClass, token, baseUrl );
 
     }
 
@@ -164,11 +173,11 @@ public class WhatsappApiServiceGenerator {
 
                 return response.body();
             } else {
-                WhatsappApiError apiError = getWhatsappApiError(response);
-                throw new WhatsappApiException(apiError);
+                WhatsappApiError apiError = getWhatsappApiError( response );
+                throw new WhatsappApiException( apiError );
             }
         } catch (IOException e) {
-            throw new WhatsappApiException(e);
+            throw new WhatsappApiException( e );
         }
     }
 
@@ -184,21 +193,22 @@ public class WhatsappApiServiceGenerator {
             Response<T> response = call.execute();
             if (response.isSuccessful()) {
 
-                var fileName = Objects.requireNonNull(response.headers().get("Content-Disposition")).split("=")[1];
+                var fileName = Objects.requireNonNull( response.headers().get( "Content-Disposition" ) )
+                                      .split( "=" )[1];
                 ResponseBody body = (ResponseBody) response.body();
 
                 assert body != null;
-                return new MediaFile(fileName, body.bytes());
+                return new MediaFile( fileName, body.bytes() );
             } else {
                 if (response.code() == 404) {
-                    var error = new Error(404, null, 404, null, "Not found", null, null, null, false, null, null);
-                    throw new WhatsappApiException(new WhatsappApiError(error));
+                    var error = new Error( 404, null, 404, null, "Not found", null, null, null, false, null, null );
+                    throw new WhatsappApiException( new WhatsappApiError( error ) );
                 }
-                WhatsappApiError apiError = getWhatsappApiError(response);
-                throw new WhatsappApiException(apiError);
+                WhatsappApiError apiError = getWhatsappApiError( response );
+                throw new WhatsappApiException( apiError );
             }
         } catch (IOException e) {
-            throw new WhatsappApiException(e);
+            throw new WhatsappApiException( e );
         }
     }
 
@@ -211,10 +221,10 @@ public class WhatsappApiServiceGenerator {
      * @throws IOException          the io exception
      */
     public static WhatsappApiError getWhatsappApiError(Response<?> response) throws WhatsappApiException, IOException {
-        Objects.requireNonNull(errorBodyConverter);
+        Objects.requireNonNull( errorBodyConverter );
         ResponseBody responseBody = response.errorBody();
-        Objects.requireNonNull(responseBody);
-        return errorBodyConverter.convert(responseBody);
+        Objects.requireNonNull( responseBody );
+        return errorBodyConverter.convert( responseBody );
 
     }
 
