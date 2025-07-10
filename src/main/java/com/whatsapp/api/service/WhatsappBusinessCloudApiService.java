@@ -4,6 +4,7 @@ import com.whatsapp.api.domain.media.Media;
 import com.whatsapp.api.domain.media.UploadResponse;
 import com.whatsapp.api.domain.messages.Message;
 import com.whatsapp.api.domain.messages.ReadMessage;
+import com.whatsapp.api.domain.messages.TypingIndicatorMessage;
 import com.whatsapp.api.domain.messages.response.MessageResponse;
 import com.whatsapp.api.domain.phone.TwoStepCode;
 import com.whatsapp.api.domain.response.Response;
@@ -70,14 +71,27 @@ public interface WhatsappBusinessCloudApiService {
     Call<Response> deleteMedia(@Path("api-version") String apiVersion, @Path("media-id") String mediaId);
 
     /**
-     * Send mark Meassge as read call.
+     * Send mark Message as read call.
      *
      * @param phoneNumberId the phone number id
      * @param message       the message
      * @return the call
      */
     @POST("/{api-version}/{Phone-Number-ID}/messages")
-    Call<Response> markMessageAsRead(@Path("api-version") String apiVersion, @Path("Phone-Number-ID") String phoneNumberId, @Body ReadMessage message);
+    Call<Response> markMessageAsRead(@Path("api-version") String apiVersion,
+                                     @Path("Phone-Number-ID") String phoneNumberId, @Body ReadMessage message);
+
+    /**
+     * Show typing indicator and mark message as read
+     *
+     * @param phoneNumberId the phone number id
+     * @param message       the message
+     * @return the call
+     */
+    @POST("/{api-version}/{Phone-Number-ID}/messages")
+    Call<Response> showTypingIndicator(@Path("api-version") String apiVersion,
+                                       @Path("Phone-Number-ID") String phoneNumberId,
+                                       @Body TypingIndicatorMessage message);
 
     /**
      * Two-step verification call.

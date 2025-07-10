@@ -1,0 +1,8 @@
+{
+  "messaging_product": "whatsapp",
+  "status": "read",
+  "message_id": "123456",
+  "typing_indicator": {
+    "type": "text"
+  }
+}

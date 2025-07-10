@@ -7,6 +7,7 @@ import com.whatsapp.api.domain.media.MediaFile;
 import com.whatsapp.api.domain.media.UploadResponse;
 import com.whatsapp.api.domain.messages.Message;
 import com.whatsapp.api.domain.messages.ReadMessage;
+import com.whatsapp.api.domain.messages.TypingIndicatorMessage;
 import com.whatsapp.api.domain.messages.response.MessageResponse;
 import com.whatsapp.api.domain.phone.TwoStepCode;
 import com.whatsapp.api.domain.response.Response;
@@ -140,6 +141,19 @@ public class WhatsappBusinessCloudApi {
     public Response markMessageAsRead(String phoneNumberId, ReadMessage message) {
         return executeSync(whatsappBusinessCloudApiService.markMessageAsRead(apiVersion.getValue(), phoneNumberId, message));
     }
+
+    /**
+     * Show typing indicator.
+     *
+     * @param phoneNumberId Represents a specific phone number.
+     * @param message       The {@link ReadMessage} object.
+     * @return the response
+     * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/typing-indicators">official documentation</a>
+     */
+    public Response showTypingIndicator(String phoneNumberId, TypingIndicatorMessage message) {
+        return executeSync(whatsappBusinessCloudApiService.showTypingIndicator(apiVersion.getValue(), phoneNumberId, message));
+    }
+
 
     /**
      * Business Solution Providers (BSPs) must authenticate themselves with
