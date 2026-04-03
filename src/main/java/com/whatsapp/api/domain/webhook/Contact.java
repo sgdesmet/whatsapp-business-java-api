@@ -20,6 +20,11 @@ public record Contact(
 
         @JsonProperty("phones") List<Phone> phones,
 
-        @JsonProperty("wa_id") String waId) {
+        @JsonProperty("wa_id") String waId,
+
+        @JsonProperty("user_id") String userId,
+
+        @JsonProperty("parent_user_id") String parentUserId
+        ) {
 
 }

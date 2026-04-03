@@ -11,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record Profile(
 
-        @JsonProperty("name") String name
+        @JsonProperty("name") String name,
+
+        @JsonProperty("username") String username
 
 ) {
 }
