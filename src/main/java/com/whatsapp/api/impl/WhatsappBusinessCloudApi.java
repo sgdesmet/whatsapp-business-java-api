@@ -84,7 +84,7 @@ public class WhatsappBusinessCloudApi {
      */
     public UploadResponse uploadMedia(String phoneNumberId, String fileName, FileType fileType, byte[] file) {
 
-        var requestFile = MultipartBody.create(file, MediaType.parse(fileType.getType()));
+        var requestFile = MultipartBody.create(MediaType.parse(fileType.getType()), file);
         Part body = Part.createFormData("file", fileName, requestFile);
 
         var messageProduct = Part.createFormData("messaging_product", "whatsapp");
