@@ -13,5 +13,11 @@ public record Contact(
 
         @JsonProperty("input") String input,
 
-        @JsonProperty("wa_id") String waId) {
+        /// The phone number
+        @JsonProperty("wa_id") String waId,
+
+        /// The BSUID
+        @JsonProperty("user_id") String userId
+
+) {
 }
