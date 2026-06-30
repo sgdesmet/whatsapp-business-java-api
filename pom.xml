@@ -35,7 +35,7 @@
         <org.mockito.version>5.12.0</org.mockito.version>
         <org.junit.jupiter.version>5.11.0</org.junit.jupiter.version>
         <com.squareup.okhttp3.version>5.3.2</com.squareup.okhttp3.version>
-        <jackson.version>2.21.2</jackson.version>
+        <jackson.version>2.22.0</jackson.version>
     </properties>
 
     <distributionManagement>
